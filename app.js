@@ -69,7 +69,36 @@
         </div>
       </section>
 
-      <section class="experience-section arena-section app-view" id="arena" data-view="arena">
+      <section class="experience-section arena-section arena-v2 app-view" id="arena" data-view="arena">
+        <section class="arena-cinema reveal">
+          <div class="arena-cinema-bg" aria-hidden="true"></div><div class="cinema-grain" aria-hidden="true"></div>
+          <div class="arena-cinema-copy"><span class="cinema-kicker"><i></i> NEW EXPERIENCE · ROUND 07</span><h2>JOGUE.<br>APRENDA.<br><em>DOMINE.</em></h2><p>O céu é o limite. O conhecimento muda o jogo.</p><div class="cinema-actions"><button class="cinema-primary" id="arena-enter">ENTRAR NO BUG LAB <b>▶</b></button><button class="cinema-secondary" id="celebrate-v2">★ REVER O OURO</button></div></div>
+          <aside class="weekly-gold"><span>CONQUISTA DA SEMANA</span><strong>OURO</strong><p>Missão concluída em equipe</p><div><b>01</b><small>TROFÉU<br>DESBLOQUEADO</small></div></aside>
+          <div class="cinema-scroll">ROLE PARA EXPLORAR <i></i></div>
+        </section>
+
+        <section class="progress-journey reveal">
+          <div class="arena-v2-heading"><span>TRILHA DA EQUIPE</span><h3>Cada rodada deixa uma marca.</h3></div>
+          <div class="journey-rail"><button class="journey-node active won" data-stage="gold"><i>★</i><span>OURO</span><small>CONQUISTADO</small></button><button class="journey-node" data-stage="streak"><i>02</i><span>SEQUÊNCIA</span><small>PRÓXIMO ALVO</small></button><button class="journey-node" data-stage="bugs"><i>△</i><span>BUG MASTER</span><small>4 VÍDEOS</small></button><button class="journey-node" data-stage="legend"><i>∞</i><span>LENDA NEW</span><small>FASE FINAL</small></button></div>
+          <div class="journey-detail"><span id="stage-label">FASE 01 · CONCLUÍDA</span><strong id="stage-title">Ouro da semana</strong><p id="stage-copy">A primeira grande conquista já entrou para a história da equipe.</p><div><i id="stage-progress" style="width:25%"></i></div></div>
+        </section>
+
+        <section class="bug-lab reveal" id="bug-lab">
+          <div class="arena-v2-heading"><span>BUG LAB · ARQUIVO DA EQUIPE</span><h3>Os atalhos que mudam a rodada.</h3><p>Selecione um dossiê. A central já está pronta para receber os vídeos gravados pela NEW.</p></div>
+          <div class="bug-lab-layout">
+            <div class="bug-screen" id="bug-screen"><div class="screen-grid"></div><span class="screen-tag" id="bug-screen-tag">PONTE DE VIDRO</span><button class="screen-play" id="bug-screen-play" aria-label="Abrir vídeo"><i>▶</i></button><div class="screen-copy"><small id="bug-screen-level">BUG LAB 01 · AVANÇADO</small><h4 id="bug-screen-title">Rota segura da ponte</h4><p id="bug-screen-desc">O vídeo mostrará o posicionamento usado pela equipe para ler a rota e reduzir o risco.</p></div><div class="screen-status"><i></i> SLOT PRONTO · AGUARDANDO VÍDEO</div></div>
+            <div class="bug-playlist" role="listbox" aria-label="Vídeos do Bug Lab">
+              <button class="bug-video-card active" data-tag="PONTE DE VIDRO" data-level="BUG LAB 01 · AVANÇADO" data-title="Rota segura da ponte" data-desc="O vídeo mostrará o posicionamento usado pela equipe para ler a rota e reduzir o risco."><b>01</b><i>▶</i><span><strong>Rota segura da ponte</strong><small>MOVIMENTO · CÂMERA</small></span></button>
+              <button class="bug-video-card" data-tag="VISÃO TÁTICA" data-level="BUG LAB 02 · ESSENCIAL" data-title="Câmera antecipada" data-desc="Como ampliar a leitura do cenário e enxergar a ameaça antes do movimento decisivo."><b>02</b><i>▶</i><span><strong>Câmera antecipada</strong><small>VISÃO · TIMING</small></span></button>
+              <button class="bug-video-card" data-tag="SPAWN" data-level="BUG LAB 03 · RARO" data-title="Spawn inteligente" data-desc="Uma demonstração do ponto de partida que abre uma rota mais eficiente para o esquadrão."><b>03</b><i>▶</i><span><strong>Spawn inteligente</strong><small>ROTA · VANTAGEM</small></span></button>
+              <button class="bug-video-card" data-tag="MOVIMENTO" data-level="BUG LAB 04 · SECRETO" data-title="Atalho de movimento" data-desc="A técnica registrada pela NEW para ganhar tempo sem perder o controle do personagem."><b>04</b><i>▶</i><span><strong>Atalho de movimento</strong><small>BUG · EXECUÇÃO</small></span></button>
+              <div class="playlist-note"><strong>04 SLOTS CRIADOS</strong><span>Envie os links ou arquivos dos vídeos para ativá-los.</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="decision-room reveal"><div class="decision-copy"><span>SIMULAÇÃO INTERATIVA · 01</span><h3>A ponte abriu.<br>Qual é a chamada?</h3><p>Escolha como se a rodada estivesse valendo.</p></div><div class="decision-console"><div class="decision-timer"><span>DECISÃO DO ESQUADRÃO</span><b id="decision-score">00</b></div><button data-choice="rush"><i>A</i><span><strong>Correr primeiro</strong><small>Ganhar espaço antes da leitura</small></span></button><button data-choice="observe" data-correct="true"><i>B</i><span><strong>Observar e memorizar</strong><small>Transformar cada salto em informação</small></span></button><button data-choice="split"><i>C</i><span><strong>Dividir o esquadrão</strong><small>Testar duas rotas ao mesmo tempo</small></span></button><div class="decision-result" id="decision-result">SELECIONE UMA ESTRATÉGIA</div></div></section>
+        <div class="video-modal" id="bug-video-modal" aria-hidden="true"><button class="video-modal-close" aria-label="Fechar">×</button><div><span>ARQUIVO SELECIONADO</span><h3 id="modal-video-title">Rota segura da ponte</h3><i>▶</i><p>O player está pronto. Envie o link do YouTube, Google Drive ou o arquivo gravado para publicarmos o tutorial aqui.</p><small>CONTEÚDO INTERNO DA EQUIPE NEW</small></div></div>
         <div class="arena-grid" aria-hidden="true"></div>
         <div class="section-intro reveal">
           <div><span class="section-index">02 / SALA DE JOGOS</span><h2>O céu não é<br>o limite. <em>É a arena.</em></h2></div>
@@ -280,6 +309,41 @@
   function initArena() {
     const arena = document.querySelector("#arena");
     if (!arena) return;
+    arena.querySelector("#arena-enter")?.addEventListener("click", () => arena.querySelector("#bug-lab")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    const stages = {
+      gold: ["FASE 01 · CONCLUÍDA", "Ouro da semana", "A primeira grande conquista já entrou para a história da equipe.", "25%"],
+      streak: ["FASE 02 · EM ANDAMENTO", "Ouro consecutivo", "A próxima missão é provar que a vitória não foi acaso: é padrão.", "48%"],
+      bugs: ["FASE 03 · ARQUIVO ABERTO", "Bug Master", "Publique os quatro vídeos secretos e transforme descoberta em vantagem coletiva.", "72%"],
+      legend: ["FASE 04 · BLOQUEADA", "Lenda NEW", "O nível máximo espera a equipe que domina estratégia, execução e constância.", "100%"]
+    };
+    arena.querySelectorAll(".journey-node").forEach((button) => button.addEventListener("click", () => {
+      arena.querySelectorAll(".journey-node").forEach((item) => item.classList.toggle("active", item === button));
+      const [label, title, copy, progress] = stages[button.dataset.stage];
+      arena.querySelector("#stage-label").textContent = label; arena.querySelector("#stage-title").textContent = title;
+      arena.querySelector("#stage-copy").textContent = copy; arena.querySelector("#stage-progress").style.width = progress;
+    }));
+    const modal = arena.querySelector("#bug-video-modal");
+    arena.querySelectorAll(".bug-video-card").forEach((button) => button.addEventListener("click", () => {
+      arena.querySelectorAll(".bug-video-card").forEach((item) => item.classList.toggle("active", item === button));
+      arena.querySelector("#bug-screen-tag").textContent = button.dataset.tag; arena.querySelector("#bug-screen-level").textContent = button.dataset.level;
+      arena.querySelector("#bug-screen-title").textContent = button.dataset.title; arena.querySelector("#bug-screen-desc").textContent = button.dataset.desc;
+      const screen = arena.querySelector("#bug-screen"); screen.classList.remove("pulse"); requestAnimationFrame(() => screen.classList.add("pulse"));
+    }));
+    arena.querySelector("#bug-screen-play")?.addEventListener("click", () => {
+      arena.querySelector("#modal-video-title").textContent = arena.querySelector("#bug-screen-title").textContent;
+      modal.classList.add("open"); modal.setAttribute("aria-hidden", "false");
+    });
+    const closeModal = () => { modal.classList.remove("open"); modal.setAttribute("aria-hidden", "true"); };
+    modal?.querySelector(".video-modal-close")?.addEventListener("click", closeModal);
+    modal?.addEventListener("click", (event) => { if (event.target === modal) closeModal(); });
+    arena.querySelectorAll("[data-choice]").forEach((button) => button.addEventListener("click", () => {
+      arena.querySelectorAll("[data-choice]").forEach((item) => { item.classList.remove("right", "wrong"); item.disabled = true; });
+      const correct = button.dataset.correct === "true"; button.classList.add(correct ? "right" : "wrong");
+      if (!correct) arena.querySelector('[data-correct="true"]').classList.add("right");
+      arena.querySelector("#decision-score").textContent = correct ? "100" : "40";
+      arena.querySelector("#decision-result").textContent = correct ? "DECISÃO PERFEITA · INFORMAÇÃO É VANTAGEM" : "RISCO ALTO · A MELHOR LEITURA ERA OBSERVAR";
+      setTimeout(() => arena.querySelectorAll("[data-choice]").forEach((item) => { item.disabled = false; }), 900);
+    }));
     const cards = [...arena.querySelectorAll(".strategy-card")];
     const toggleCard = (card, force) => {
       const open = force ?? !card.classList.contains("open");
@@ -295,7 +359,7 @@
       arena.querySelectorAll(".strategy-filters button").forEach((item) => item.classList.toggle("active", item === button));
       cards.forEach((card) => { card.classList.remove("open"); card.classList.toggle("filtered-out", button.dataset.tipFilter !== "all" && card.dataset.tip !== button.dataset.tipFilter); });
     });
-    arena.querySelector("#celebrate-gold")?.addEventListener("click", (event) => {
+    arena.querySelector("#celebrate-v2")?.addEventListener("click", (event) => {
       const button = event.currentTarget; button.classList.add("celebrating");
       for (let index = 0; index < 34; index += 1) {
         const particle = document.createElement("i"); particle.className = "gold-particle";
