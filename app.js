@@ -72,18 +72,36 @@
       <section class="experience-section arena-section arena-v2 arena-v3 app-view" id="arena" data-view="arena">
         <section class="shortcut-hub">
           <header class="shortcut-hero">
-            <div><span>NEW DATABASE · ROUND 6: O CÉU É O LIMITE</span><h2>ATALHOS<br><em>DA EQUIPE.</em></h2><p>Vídeos curtos. Nome claro. O macete certo na hora da rodada.</p></div>
-            <button id="shortcut-add"><i>＋</i><span><b>ADICIONAR ATALHO</b><small>Nome + personagem + vídeo</small></span></button>
+            <div><span>NEW UNIVERSE · ROUND 6: O CÉU É O LIMITE</span><h2>ENTRE.<br>DESCUBRA.<br><em>DOMINE.</em></h2><p>Personagens, conquistas e os macetes que servem para todo o elenco.</p></div>
+            <button id="shortcut-add"><i>＋</i><span><b>ADICIONAR ATALHO</b><small>Nome + mapa + vídeo</small></span></button>
           </header>
-          <div class="shortcut-toolbar"><div><button class="active" data-shortcut-filter="all">TODOS</button><button data-shortcut-filter="SPUD">SPUD</button><button data-shortcut-filter="RAJA">RAJA</button><button data-shortcut-filter="OUTROS">OUTROS</button></div><span id="shortcut-count">CARREGANDO...</span></div>
+          <nav class="arena-portals" aria-label="Portais da Arena"><button data-arena-jump="characters"><i>○</i><span><b>CONHEÇA O ELENCO</b><small>Spud, Raja e companhia</small></span></button><button data-arena-jump="shortcut-library"><i>△</i><span><b>CENTRAL DE MACETES</b><small>Funciona com todos</small></span></button><button data-arena-jump="arena-trophies"><i>□</i><span><b>CONQUISTAS NEW</b><small>Ouro da semana</small></span></button></nav>
+          <section class="character-universe" id="characters">
+            <div class="character-universe-head"><span>PORTAL 01 · PERSONAGENS</span><h3>Conheça quem<br>entra no jogo.</h3><p>Escolha um nome para abrir o dossiê. A leitura é editorial da NEW e não limita nenhum macete.</p></div>
+            <div class="character-showcase" data-active="SPUD"><div class="character-art"></div><div class="character-dossier"><span id="dossier-code">JOGADOR 444 · ÍCONE REBELDE</span><h4 id="dossier-name">SPUD</h4><p id="dossier-copy">O astro rockstar do elenco: chapéu, tatuagens e skins chamativas. Spud traz irreverência para cada rodada e virou um dos rostos mais reconhecíveis do jogo.</p><div><b>VISUAL</b><span id="dossier-style">ROCKSTAR · COWBOY · FLAMBOYANT</span></div></div></div>
+            <div class="character-selector" role="listbox" aria-label="Escolher personagem">
+              <button class="active" data-dossier="SPUD" data-code="JOGADOR 444 · ÍCONE REBELDE" data-copy="O astro rockstar do elenco: chapéu, tatuagens e skins chamativas. Spud traz irreverência para cada rodada e virou um dos rostos mais reconhecíveis do jogo." data-style="ROCKSTAR · COWBOY · FLAMBOYANT"><i>444</i><span>SPUD</span></button>
+              <button data-dossier="RAJA" data-code="JOGADOR 299 · PRESENÇA CONFIANTE" data-copy="Raja Kumar chega com postura confiante, óculos marcantes e variações que passeiam do urbano ao fantástico. Um personagem feito para entrar em cena." data-style="URBANO · ELEGANTE · MÍTICO"><i>299</i><span>RAJA</span></button>
+              <button data-dossier="ACE" data-code="ELENCO · COMPETIDOR" data-copy="Ace representa o jogador que entra para disputar cada centímetro. Na leitura NEW, é velocidade de decisão e presença competitiva." data-style="URBANO · ÁGIL · COMPETITIVO"><i>A</i><span>ACE</span></button>
+              <button data-dossier="DJ" data-code="ELENCO · ENERGIA DA ARENA" data-copy="DJ carrega a energia das partidas mais caóticas. É o personagem para quem gosta de estilo, ritmo e uma entrada impossível de ignorar." data-style="MÚSICA · RITMO · ATITUDE"><i>DJ</i><span>DJ</span></button>
+              <button data-dossier="DANI" data-code="ELENCO · ATITUDE URBANA" data-copy="Dani tem presença direta e visual urbano. Na galeria NEW, representa leitura rápida de cenário e coragem para mudar a rota." data-style="URBANO · DIRETO · DESTEMIDO"><i>D</i><span>DANI</span></button>
+              <button data-dossier="BINNIE" data-code="ELENCO · SURPRESA DA RODADA" data-copy="Binnie lembra que aparência leve não significa jogo previsível. É o dossiê das viradas, improvisos e momentos inesperados." data-style="LEVE · IMPREVISÍVEL · CRIATIVO"><i>B</i><span>BINNIE</span></button>
+              <button data-dossier="KARA" data-code="ELENCO · FOCO TOTAL" data-copy="Kara representa foco e presença. Um perfil para quem prefere ler a rodada, escolher o momento e executar sem hesitar." data-style="FOCO · PRECISÃO · CONTROLE"><i>K</i><span>KARA</span></button>
+              <button data-dossier="BEATRIZ" data-code="ELENCO · PERSONALIDADE FORTE" data-copy="Beatriz fecha a seleção com personalidade marcante. Na leitura NEW, é resistência, adaptação e confiança até a última fase." data-style="PRESENÇA · RESISTÊNCIA · CONFIANÇA"><i>BE</i><span>BEATRIZ</span></button>
+            </div>
+          </section>
+          <section class="arena-trophies" id="arena-trophies"><div><span>PORTAL 02 · CONQUISTA ATUAL</span><h3>OURO<br>DA SEMANA.</h3><p>A vitória fica registrada. A próxima rodada começa com a equipe inteira olhando para cima.</p></div><div class="trophy-core"><i>★</i><b>01</b><span>TROFÉU NEW</span></div><div class="trophy-next"><span>PRÓXIMO ALVO</span><strong>OURO 2×</strong><small>CONQUISTA CONSECUTIVA</small></div></section>
+          <section class="shortcut-library" id="shortcut-library"><div class="shortcut-library-head"><span>PORTAL 03 · CENTRAL DE MACETES</span><h3>Descobriu? Compartilhe.<br><em>Todo personagem pode usar.</em></h3><p>Organize por mapa e tipo de técnica. Sem separar por personagem.</p></div>
+          <div class="shortcut-toolbar"><div><button class="active" data-shortcut-filter="all">TODOS</button><button data-shortcut-filter="BUG">BUGS</button><button data-shortcut-filter="ROTA">ROTAS</button><button data-shortcut-filter="TIMING">TIMING</button><button data-shortcut-filter="MOVIMENTO">MOVIMENTO</button></div><span id="shortcut-count">CARREGANDO...</span></div>
           <div class="shortcut-grid" id="shortcut-grid"><div class="shortcut-loading"><i></i><strong>BUSCANDO ATALHOS</strong></div></div>
           <div class="shortcut-empty" id="shortcut-empty" hidden><b>＋</b><h3>Nenhum atalho publicado.</h3><p>Clique em “Adicionar atalho”, dê um nome e envie o vídeo.</p></div>
+          </section>
           <div class="shortcut-admin-modal" id="shortcut-admin-modal" aria-hidden="true">
             <div class="shortcut-admin-card"><button class="shortcut-modal-close" type="button" aria-label="Fechar">×</button>
               <div class="shortcut-form-head"><span>PUBLICAÇÃO DA DIRETORIA</span><h3>Novo atalho</h3><p>Cadastre somente o necessário. O vídeo entra na biblioteca assim que o envio terminar.</p></div>
               <form id="shortcut-form">
                 <label class="field-wide"><span>NOME DO ATALHO *</span><input id="shortcut-title" maxlength="120" required placeholder="Ex.: Pulo secreto da ponte"></label>
-                <label><span>PERSONAGEM</span><select id="shortcut-character"><option>SPUD</option><option>RAJA</option><option>ACE</option><option>DJ</option><option>DANI</option><option>BINNIE</option><option>KARA</option><option>BEATRIZ</option><option>OUTROS</option></select></label>
+                <label><span>TIPO DE MACETE</span><select id="shortcut-category"><option>BUG</option><option>ROTA</option><option>TIMING</option><option>MOVIMENTO</option><option>CONTROLE</option><option>GERAL</option></select></label>
                 <label><span>MAPA / JOGO</span><select id="shortcut-map"><option>Ponte de Vidro</option><option>Batatinha Frita 1, 2, 3</option><option>Dalgona</option><option>Esconde-Esconde</option><option>Mingle</option><option>Pular Corda</option><option>Sky Squid Game</option><option>Outros</option></select></label>
                 <label class="field-wide"><span>DESCRIÇÃO CURTA</span><textarea id="shortcut-description" maxlength="300" placeholder="O que o jogador precisa fazer?"></textarea></label>
                 <div class="video-source field-wide"><span>VÍDEO *</span><label class="video-drop" for="shortcut-file"><input type="file" id="shortcut-file" accept="video/*"><b>↑ ESCOLHER VÍDEO</b><small id="shortcut-file-name">MP4, MOV ou WebM</small></label><i>OU</i><input type="url" id="shortcut-url" placeholder="Cole um link do YouTube ou vídeo HTTPS"></div>
@@ -362,15 +380,23 @@
       try { const parsed = new URL(url); const id = parsed.hostname.includes("youtu.be") ? parsed.pathname.slice(1) : parsed.searchParams.get("v"); return id ? `https://www.youtube.com/embed/${id}` : ""; } catch { return ""; }
     };
     const render = () => {
-      const visible = entries.filter((item) => filter === "all" || (filter === "OUTROS" ? !["SPUD", "RAJA"].includes(item.character) : item.character === filter));
+      const visible = entries.filter((item) => filter === "all" || item.category === filter);
       hub.querySelector("#shortcut-count").textContent = `${visible.length.toString().padStart(2, "0")} ${visible.length === 1 ? "ATALHO" : "ATALHOS"}`;
       empty.hidden = visible.length > 0; grid.hidden = visible.length === 0;
-      grid.innerHTML = visible.map((item, index) => `<article class="shortcut-card" data-id="${escapeHtml(item.id)}" style="--delay:${index * 45}ms"><button class="shortcut-card-play" aria-label="Reproduzir ${escapeHtml(item.title)}"><span>▶</span><small>ABRIR VÍDEO</small></button><div class="shortcut-card-number">${String(index + 1).padStart(2, "0")}</div><div class="shortcut-card-copy"><span>${escapeHtml(item.character)} · ${escapeHtml(item.map)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description || "Vídeo tático da equipe NEW.")}</p><small>PUBLICADO EM ${new Date(item.createdAt).toLocaleDateString("pt-BR")}</small></div></article>`).join("");
+      grid.innerHTML = visible.map((item, index) => `<article class="shortcut-card" data-id="${escapeHtml(item.id)}" style="--delay:${index * 45}ms"><button class="shortcut-card-play" aria-label="Reproduzir ${escapeHtml(item.title)}"><span>▶</span><small>ABRIR VÍDEO</small></button><div class="shortcut-card-number">${String(index + 1).padStart(2, "0")}</div><div class="shortcut-card-copy"><span>${escapeHtml(item.category || "GERAL")} · ${escapeHtml(item.map)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description || "Vídeo tático da equipe NEW.")}</p><small>VALE PARA TODO O ELENCO · ${new Date(item.createdAt).toLocaleDateString("pt-BR")}</small></div></article>`).join("");
     };
     const load = async () => {
       try { const request = await fetch(`${api}/shortcuts`, { cache: "no-store" }); if (!request.ok) throw new Error(); entries = await request.json(); render(); }
       catch { grid.innerHTML = '<div class="shortcut-load-error"><strong>BASE TEMPORARIAMENTE INDISPONÍVEL</strong><span>Tente novamente em alguns instantes.</span></div>'; hub.querySelector("#shortcut-count").textContent = "OFFLINE"; }
     };
+    hub.querySelectorAll("[data-arena-jump]").forEach((button) => button.addEventListener("click", () => hub.querySelector(`#${button.dataset.arenaJump}`)?.scrollIntoView({ behavior: "smooth", block: "start" })));
+    hub.querySelectorAll(".character-selector button").forEach((button) => button.addEventListener("click", () => {
+      hub.querySelectorAll(".character-selector button").forEach((item) => item.classList.toggle("active", item === button));
+      const showcase = hub.querySelector(".character-showcase"); showcase.dataset.active = button.dataset.dossier;
+      hub.querySelector("#dossier-name").textContent = button.dataset.dossier; hub.querySelector("#dossier-code").textContent = button.dataset.code;
+      hub.querySelector("#dossier-copy").textContent = button.dataset.copy; hub.querySelector("#dossier-style").textContent = button.dataset.style;
+      showcase.classList.remove("dossier-switch"); requestAnimationFrame(() => showcase.classList.add("dossier-switch"));
+    }));
     hub.querySelector("#shortcut-add")?.addEventListener("click", () => { adminModal.classList.add("open"); adminModal.setAttribute("aria-hidden", "false"); setTimeout(() => hub.querySelector("#shortcut-title")?.focus(), 200); });
     const closeAdmin = () => { adminModal.classList.remove("open"); adminModal.setAttribute("aria-hidden", "true"); };
     hub.querySelector(".shortcut-modal-close")?.addEventListener("click", closeAdmin);
@@ -380,26 +406,26 @@
     grid.addEventListener("click", (event) => {
       const card = event.target.closest(".shortcut-card"); if (!card) return; const item = entries.find((entry) => entry.id === card.dataset.id); if (!item) return;
       const embed = youtubeEmbed(item.videoUrl); const media = embed ? `<iframe src="${escapeHtml(embed)}" title="${escapeHtml(item.title)}" allow="autoplay; fullscreen" allowfullscreen></iframe>` : `<video src="${escapeHtml(item.videoUrl)}" controls autoplay playsinline></video>`;
-      hub.querySelector("#shortcut-player-content").innerHTML = `${media}<div><span>${escapeHtml(item.character)} · ${escapeHtml(item.map)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description || "")}</p></div>`;
+      hub.querySelector("#shortcut-player-content").innerHTML = `${media}<div><span>${escapeHtml(item.category || "GERAL")} · ${escapeHtml(item.map)} · VALE PARA TODOS</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description || "")}</p></div>`;
       playerModal.classList.add("open"); playerModal.setAttribute("aria-hidden", "false");
     });
     const closePlayer = () => { playerModal.classList.remove("open"); playerModal.setAttribute("aria-hidden", "true"); hub.querySelector("#shortcut-player-content").innerHTML = ""; };
     hub.querySelector(".shortcut-player-close")?.addEventListener("click", closePlayer); playerModal.addEventListener("click", (event) => { if (event.target === playerModal) closePlayer(); });
     form.addEventListener("submit", async (event) => {
       event.preventDefault(); const error = hub.querySelector("#shortcut-form-error"); error.textContent = "";
-      const title = hub.querySelector("#shortcut-title").value.trim(); const character = hub.querySelector("#shortcut-character").value; const map = hub.querySelector("#shortcut-map").value;
+      const title = hub.querySelector("#shortcut-title").value.trim(); const category = hub.querySelector("#shortcut-category").value; const map = hub.querySelector("#shortcut-map").value;
       const description = hub.querySelector("#shortcut-description").value.trim(); const password = hub.querySelector("#shortcut-password").value; const file = hub.querySelector("#shortcut-file").files[0]; const videoUrl = hub.querySelector("#shortcut-url").value.trim();
       if (!file && !videoUrl) { error.textContent = "Selecione um vídeo ou cole um link."; return; }
       const id = crypto.randomUUID(); const progress = hub.querySelector("#upload-progress"); const submit = hub.querySelector(".shortcut-submit"); progress.hidden = false; submit.disabled = true;
       try {
         if (file) {
           await new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest(); xhr.open("PUT", `${api}/shortcuts/${id}/video`); xhr.setRequestHeader("content-type", file.type || "video/mp4"); xhr.setRequestHeader("x-admin-password", password); xhr.setRequestHeader("x-title", encode(title)); xhr.setRequestHeader("x-character", encode(character)); xhr.setRequestHeader("x-map", encode(map)); xhr.setRequestHeader("x-description", encode(description));
+            const xhr = new XMLHttpRequest(); xhr.open("PUT", `${api}/shortcuts/${id}/video`); xhr.setRequestHeader("content-type", file.type || "video/mp4"); xhr.setRequestHeader("x-admin-password", password); xhr.setRequestHeader("x-title", encode(title)); xhr.setRequestHeader("x-category", encode(category)); xhr.setRequestHeader("x-map", encode(map)); xhr.setRequestHeader("x-description", encode(description));
             xhr.upload.onprogress = (upload) => { if (!upload.lengthComputable) return; const value = Math.round(upload.loaded / upload.total * 100); hub.querySelector("#upload-progress-value").textContent = `${value}%`; hub.querySelector("#upload-progress-bar").style.width = `${value}%`; };
             xhr.onload = () => xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error(JSON.parse(xhr.responseText || "{}").error || "Falha no envio.")); xhr.onerror = () => reject(new Error("Falha de conexão durante o envio.")); xhr.send(file);
           });
         } else {
-          const request = await fetch(`${api}/shortcuts/${id}/link`, { method: "POST", headers: { "content-type": "application/json", "x-admin-password": password }, body: JSON.stringify({ title, character, map, description, videoUrl }) });
+          const request = await fetch(`${api}/shortcuts/${id}/link`, { method: "POST", headers: { "content-type": "application/json", "x-admin-password": password }, body: JSON.stringify({ title, category, map, description, videoUrl }) });
           const result = await request.json(); if (!request.ok) throw new Error(result.error || "Falha na publicação.");
         }
         hub.querySelector("#upload-progress-label").textContent = "PUBLICADO"; hub.querySelector("#upload-progress-value").textContent = "100%"; hub.querySelector("#upload-progress-bar").style.width = "100%";

@@ -5,7 +5,7 @@ function cors(origin) {
   return {
     "access-control-allow-origin": allowed ? origin : "https://reinaldobueno-cyber.github.io",
     "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-    "access-control-allow-headers": "content-type, x-admin-password, x-title, x-character, x-map, x-description",
+    "access-control-allow-headers": "content-type, x-admin-password, x-title, x-category, x-map, x-description",
     "access-control-max-age": "86400",
     vary: "Origin"
   };
@@ -72,7 +72,7 @@ export default {
         if (!contentType.startsWith("video/")) return response({ error: "O arquivo precisa ser um vídeo." }, 415, origin);
         await env.VIDEOS.put(`videos/${id}`, request.body, { httpMetadata: { contentType } });
         const entry = {
-          id, title, character: clean(decodeURIComponent(request.headers.get("x-character") || "GERAL"), 40),
+          id, title, category: clean(decodeURIComponent(request.headers.get("x-category") || "GERAL"), 40),
           map: clean(decodeURIComponent(request.headers.get("x-map") || "OUTROS"), 60),
           description: clean(decodeURIComponent(request.headers.get("x-description") || ""), 300),
           type: "upload", videoUrl: `${url.origin}/videos/${id}`, createdAt: new Date().toISOString()
@@ -87,7 +87,7 @@ export default {
         const body = await request.json();
         const title = clean(body.title); const videoUrl = clean(body.videoUrl, 500);
         if (!title || !/^https:\/\//i.test(videoUrl)) return response({ error: "Informe o nome e um link HTTPS válido." }, 400, origin);
-        const entry = { id: linkMatch[1], title, character: clean(body.character || "GERAL", 40), map: clean(body.map || "OUTROS", 60), description: clean(body.description, 300), type: "link", videoUrl, createdAt: new Date().toISOString() };
+        const entry = { id: linkMatch[1], title, category: clean(body.category || "GERAL", 40), map: clean(body.map || "OUTROS", 60), description: clean(body.description, 300), type: "link", videoUrl, createdAt: new Date().toISOString() };
         await saveEntry(env, entry);
         return response(entry, 201, origin);
       }
