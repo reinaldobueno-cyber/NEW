@@ -28,21 +28,24 @@
   document.title = "NEW! APOCALYPSE — Central de Performance";
   originalShell.className = "experience";
   originalShell.innerHTML = `
-    <header class="cinematic-hero" id="inicio">
+    <header class="cinematic-hero original-hero" id="inicio">
       <div class="hero-noise" aria-hidden="true"></div>
-      <div class="hero-content">
-        <div class="brand-mark"><img src="${logoSource}" alt="NEW! Apocalypse"></div>
-        <div class="kicker"><span></span> Central oficial de performance · ${data.meta.season}</div>
-        <h1>A guerra é escrita<br><em>em números.</em></h1>
-        <p class="hero-copy">Histórico, evolução e glória. Cada semana conta. Cada ponto deixa uma marca.</p>
-        <div class="hero-actions">
-          <a class="primary-action" href="#ranking">Ver ranking atual <span>↘</span></a>
-          <a class="ghost-action" href="#lancamento">Lançar números</a>
-        </div>
+      <div class="classic-intro">
+        <div class="classic-logo"><img src="${logoSource}" alt="NEW! Apocalypse"></div>
+        <div class="classic-eyebrow">Temporada ${data.meta.season} · O Céu é o Limite</div>
+        <h1>A Guerra<br>dos Campeões</h1>
+        <p>Hall da Fama, rankings completos e a temporada em números.</p>
+        <a class="classic-cue" href="#visao">desça para entrar <span>↓</span></a>
       </div>
-      <div class="hero-dashboard" id="hero-dashboard"></div>
-      <div class="scroll-mark">EXPLORE <span></span></div>
     </header>
+
+    <aside class="rock-player" id="rock-player">
+      <button class="rock-toggle" id="rock-toggle" aria-expanded="false" aria-controls="rock-panel"><span>♫</span><div><b>ROCK MODE</b><small>Rock Classics · Spotify</small></div><i>▲</i></button>
+      <div class="rock-panel" id="rock-panel">
+        <div class="rock-head"><span>TRILHA DA BATALHA</span><button id="rock-close" aria-label="Minimizar player">×</button></div>
+        <iframe title="Playlist Rock Classics no Spotify" src="https://open.spotify.com/embed/playlist/37i9dQZF1DWXRqgorJj26U?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+    </aside>
 
     <nav class="command-nav" aria-label="Navegação principal">
       <a class="nav-brand" href="#inicio"><span>NEW!</span> APOCALYPSE</a>
@@ -122,15 +125,7 @@
       <p>Base oficial · Atualizada em ${new Date(data.meta.updatedAt + "T12:00:00").toLocaleDateString("pt-BR")}</p>
     </footer>`;
 
-  function renderHero() {
-    const month = latestMonth();
-    const ranking = rank(month.team);
-    const monthTotal = ranking.reduce((sum, player) => sum + total(player), 0);
-    document.querySelector("#hero-dashboard").innerHTML = `
-      <div class="live-line"><span><i></i> ÚLTIMO MÊS FECHADO</span><b>${month.name.toUpperCase()}</b></div>
-      <div class="hero-rank"><div><span>CAMPEÃO</span><strong>${escapeHtml(slugName(ranking[0].name))}</strong><small>${format.format(total(ranking[0]))} PTS</small></div><div class="hero-crown">♛</div></div>
-      <div class="hero-mini-stats"><div><span>PARTICIPANTES</span><b>${ranking.length}</b></div><div><span>VOLUME TOTAL</span><b>${format.format(monthTotal)}</b></div></div>`;
-  }
+  function renderHero() {}
 
   function renderOverview() {
     const latest = latestMonth();
@@ -182,11 +177,12 @@
     document.querySelectorAll("#month-tabs button").forEach((button) => button.addEventListener("click", () => { activeMonthId = button.dataset.month; renderArchive(); }));
     document.querySelectorAll("#category-toggle button").forEach((button) => button.classList.toggle("active", button.dataset.category === activeCategory));
     const grandTotal = players.reduce((sum, player) => sum + total(player), 0);
-    const bestWeek = month.weekLabels.map((label, index) => ({ label, value: players.reduce((sum, player) => sum + Number(player.weeks[index] || 0), 0) })).sort((a, b) => b.value - a.value)[0];
+    const bestWeek = month.weekLabels.map((label, index) => ({ label, index, value: players.reduce((sum, player) => sum + Number(player.weeks[index] || 0), 0) })).sort((a, b) => b.value - a.value)[0];
     document.querySelector("#ranking-view").innerHTML = `
-      <div class="archive-header reveal"><div><span>${month.status.toUpperCase()} · ${month.weekLabels.length} SEMANAS</span><h3>${month.name} / ${activeCategory === "team" ? "Equipe" : "Diretoria"}</h3></div><div class="archive-stats"><div><span>VOLUME</span><b>${format.format(grandTotal)}</b></div><div><span>MELHOR SEMANA</span><b>${escapeHtml(bestWeek?.label || "—")}</b></div></div></div>
+      <div class="archive-header reveal"><div><span>${month.status.toUpperCase()} · ${month.weekLabels.length} SEMANAS</span><h3>${month.name} / ${activeCategory === "team" ? "Equipe" : "Diretoria"}</h3></div><div class="archive-stats"><div><span>VOLUME</span><b>${format.format(grandTotal)}</b></div><div><span>MELHOR SEMANA</span><b class="best-week">Semana ${(bestWeek?.index ?? 0) + 1}<small>${escapeHtml(bestWeek?.label || "—")}</small></b></div></div></div>
+      <div class="week-timeline reveal">${month.weekLabels.map((label, index) => `<div><span>S${index + 1}</span><p><b>Semana ${index + 1}</b><small>${escapeHtml(label)}</small></p></div>`).join("")}</div>
       <div class="podium-grid reveal">${podiumMarkup(players.slice(0, 3))}</div>
-      <div class="ranking-table-wrap reveal"><table class="ranking-table"><thead><tr><th>POS</th><th>COMPETIDOR</th>${month.weekLabels.map((_, index) => `<th>S${index + 1}</th>`).join("")}<th>TOTAL</th><th>DIF.</th></tr></thead><tbody>${players.map((player, index) => {
+      <div class="ranking-table-wrap reveal"><table class="ranking-table"><thead><tr><th>POS</th><th>COMPETIDOR</th>${month.weekLabels.map((label, index) => `<th class="week-heading"><span>SEMANA ${index + 1}</span><small>${escapeHtml(label)}</small></th>`).join("")}<th>TOTAL</th><th>DIF.</th></tr></thead><tbody>${players.map((player, index) => {
         const score = total(player); const gap = total(players[0]) - score;
         return `<tr><td><span class="rank-number ${index < 3 ? "top" : ""}">${String(index + 1).padStart(2, "0")}</span></td><td><strong>${escapeHtml(player.name)}</strong></td>${month.weekLabels.map((_, week) => `<td>${format.format(player.weeks[week] || 0)}</td>`).join("")}<td class="total-cell">${format.format(score)}</td><td class="gap-cell">${index ? "−" + format.format(gap) : "LÍDER"}</td></tr>`;
       }).join("")}</tbody></table></div>
@@ -268,10 +264,17 @@
     activeCategory = button.dataset.category; renderArchive();
   });
 
+  const rockPlayer = document.querySelector("#rock-player");
+  const rockToggle = document.querySelector("#rock-toggle");
+  const setRockOpen = (open) => { rockPlayer.classList.toggle("open", open); rockToggle.setAttribute("aria-expanded", String(open)); };
+  rockToggle.addEventListener("click", () => setRockOpen(!rockPlayer.classList.contains("open")));
+  document.querySelector("#rock-close").addEventListener("click", () => setRockOpen(false));
+
   renderHero(); renderOverview(); renderHall(); renderArchive(); renderLauncher(); observeReveals();
-  if (location.hash) requestAnimationFrame(() => {
-    const target = document.querySelector(location.hash);
+  const requestedSection = location.hash || (new URLSearchParams(location.search).get("section") ? `#${new URLSearchParams(location.search).get("section")}` : "");
+  if (requestedSection) setTimeout(() => {
+    const target = document.querySelector(requestedSection);
     target?.querySelectorAll(".reveal").forEach((item) => item.classList.add("visible"));
     target?.scrollIntoView();
-  });
+  }, 300);
 }());
