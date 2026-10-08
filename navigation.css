@@ -43,6 +43,7 @@
 @keyframes orbitSpin{to{transform:rotate(360deg)}}
 .portrait-core{position:relative;z-index:2;display:grid;place-items:center;width:58%;aspect-ratio:1;overflow:hidden;border-radius:50%;border:1px solid rgba(232,162,58,.55);background:radial-gradient(circle at 35% 30%,#513017,#120a05 68%);box-shadow:0 0 0 12px rgba(232,162,58,.035),0 25px 70px rgba(0,0,0,.55);color:var(--gold-soft);font:700 clamp(2.2rem,4vw,4rem) Georgia,serif}
 .portrait-core img{width:100%;height:100%;object-fit:cover}
+.portrait-core.portrait-only img{transform:scale(3.45);transform-origin:50% 43%;filter:saturate(1.05) contrast(1.04)}
 .portrait-crown{position:absolute;z-index:3;top:7%;right:13%;color:var(--gold);font-size:2.8rem;filter:drop-shadow(0 0 14px rgba(232,162,58,.45))}
 .hall-identity{justify-self:end;max-width:370px;text-align:right}
 .hall-identity>span{color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.18em}

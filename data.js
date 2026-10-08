@@ -18,7 +18,7 @@ window.NEW_APOCALYPSE_DATA = {
     { month: "Junho", name: null, initials: "?", note: "Histórico não informado." },
     { month: "Julho", name: "Mallu", initials: "MA", note: "Precisão e fogo." },
     { month: "Agosto", name: "Denner", initials: "DE", note: "Parabéns pelo empenho!", useExistingPhoto: true },
-    { month: "Setembro", name: "Denner", initials: "DE", note: "159.741 pontos. O maior total da base.", monthId: "2026-09", useExistingPhoto: true }
+    { month: "Setembro", name: "Denner", initials: "DE", note: "159.741 pontos. O maior total da base.", monthId: "2026-09", useExistingPhoto: true, portraitOnly: true }
   ],
   months: [
     {
