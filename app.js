@@ -24,6 +24,7 @@
 
   let activeMonthId = latestMonth().id;
   let activeCategory = "team";
+  let activeHallIndex = data.hall.length - 1;
 
   document.title = "NEW! APOCALYPSE — Central de Performance";
   originalShell.className = "experience";
@@ -35,7 +36,7 @@
         <div class="classic-eyebrow">Temporada ${data.meta.season} · O Céu é o Limite</div>
         <h1>A Guerra<br>dos Campeões</h1>
         <p>Hall da Fama, rankings completos e a temporada em números.</p>
-        <a class="classic-cue" href="#visao">desça para entrar <span>↓</span></a>
+        <a class="classic-cue" href="#visao" data-view-target="visao">desça para entrar <span>↓</span></a>
       </div>
     </header>
 
@@ -47,16 +48,16 @@
       </div>
     </aside>
 
-    <nav class="command-nav" aria-label="Navegação principal">
+    <nav class="command-nav" id="command-nav" aria-label="Navegação principal">
       <a class="nav-brand" href="#inicio"><span>NEW!</span> APOCALYPSE</a>
-      <div class="nav-links">
-        <a href="#visao">Visão</a><a href="#hall">Hall</a><a href="#ranking">Ranking</a><a href="#lancamento">Atualizar</a>
+      <div class="nav-links" role="tablist" aria-label="Áreas da central">
+        <button class="active" data-view-target="visao" role="tab">Visão geral</button><button data-view-target="hall" role="tab">Hall da Fama</button><button data-view-target="ranking" role="tab">Rankings</button><button data-view-target="lancamento" role="tab">Atualizar</button>
       </div>
       <div class="nav-status"><i></i> BASE ATIVA</div>
     </nav>
 
-    <main>
-      <section class="experience-section overview-section" id="visao">
+    <main class="app-main">
+      <section class="experience-section overview-section app-view active" id="visao" data-view="visao">
         <div class="section-intro reveal">
           <div><span class="section-index">01 / VISÃO GERAL</span><h2>A temporada<br>em perspectiva.</h2></div>
           <p>Uma leitura executiva da competição, consolidada a partir da planilha oficial e calculada automaticamente.</p>
@@ -68,15 +69,15 @@
         </div>
       </section>
 
-      <section class="experience-section hall-section" id="hall">
+      <section class="experience-section hall-section app-view" id="hall" data-view="hall">
         <div class="section-intro reveal">
           <div><span class="section-index">02 / LEGADO</span><h2>Hall da<br><em>Fama.</em></h2></div>
           <p>Os nomes que atravessaram o fogo e conquistaram o topo de cada mês.</p>
         </div>
-        <div class="hall-film" id="hall-film"></div>
+        <div class="hall-experience" id="hall-experience"></div>
       </section>
 
-      <section class="experience-section ranking-section" id="ranking">
+      <section class="experience-section ranking-section app-view" id="ranking" data-view="ranking">
         <div class="section-intro reveal">
           <div><span class="section-index">03 / ARQUIVO OFICIAL</span><h2>O campo<br>de batalha.</h2></div>
           <p>Selecione um mês e alterne entre equipe e diretoria. Todos os totais são recalculados a partir das semanas.</p>
@@ -90,7 +91,7 @@
         <div id="ranking-view"></div>
       </section>
 
-      <section class="experience-section launch-section" id="lancamento">
+      <section class="experience-section launch-section app-view" id="lancamento" data-view="lancamento">
         <div class="section-intro reveal">
           <div><span class="section-index">04 / CENTRAL DE LANÇAMENTO</span><h2>Novos números.<br><em>Mesma precisão.</em></h2></div>
           <p>Cole uma faixa diretamente do Excel, valide o resultado e gere a base pronta para publicação.</p>
@@ -146,20 +147,29 @@
         <span class="trend-value">${format.format(item.value)}</span><i style="height:${Math.max(10, item.value / max * 100)}%"></i><b>${item.month.name.slice(0, 3).toUpperCase()}</b>
       </button>`).join("");
     document.querySelectorAll(".trend-column").forEach((button) => button.addEventListener("click", () => {
-      activeMonthId = button.dataset.month; renderArchive(); document.querySelector("#ranking").scrollIntoView({ behavior: "smooth" });
+      activeMonthId = button.dataset.month; renderArchive(); activateView("ranking");
     }));
   }
 
   function renderHall() {
-    document.querySelector("#hall-film").innerHTML = data.hall.map((champion, index) => {
-      const photo = champion.useExistingPhoto ? existingPhotos.get(champion.name) : null;
-      const avatar = photo ? `<img src="${photo}" alt="${escapeHtml(champion.name)}">` : `<span>${escapeHtml(champion.initials)}</span>`;
-      return `<article class="legacy-card ${champion.name ? "won" : "pending"} reveal" style="--delay:${index * .06}s">
-        <div class="legacy-top"><span>${String(index + 2).padStart(2, "0")} / 2026</span>${champion.name ? "<i>♛</i>" : "<i>—</i>"}</div>
-        <div class="legacy-avatar">${avatar}</div><div class="legacy-month">${escapeHtml(champion.month)}</div>
-        <h3>${champion.name ? escapeHtml(champion.name) : "Sem registro"}</h3><p>${escapeHtml(champion.note)}</p>
-      </article>`;
-    }).join("");
+    const container = document.querySelector("#hall-experience");
+    const champion = data.hall[activeHallIndex];
+    const photo = champion.useExistingPhoto ? existingPhotos.get(champion.name) : null;
+    const avatar = photo ? `<img src="${photo}" alt="${escapeHtml(champion.name)}">` : `<span>${escapeHtml(champion.initials)}</span>`;
+    const reigns = champion.name ? data.hall.filter((item) => item.name === champion.name).length : 0;
+    container.innerHTML = `<div class="hall-console reveal">
+      <div class="hall-timeline" role="tablist" aria-label="Meses da temporada">${data.hall.map((item, index) => `<button class="${index === activeHallIndex ? "active" : ""} ${item.name ? "complete" : "pending"}" data-hall-index="${index}" role="tab" aria-selected="${index === activeHallIndex}"><span>${String(index + 2).padStart(2, "0")}</span><b>${escapeHtml(item.month.slice(0, 3).toUpperCase())}</b><i></i></button>`).join("")}</div>
+      <article class="hall-spotlight ${champion.name ? "complete" : "pending"}">
+        <div class="hall-copy"><span class="hall-overline">${String(activeHallIndex + 2).padStart(2, "0")} / ${data.meta.season} · ${champion.name ? "REGISTRO CONFIRMADO" : "AGUARDANDO DADOS"}</span><h3>${escapeHtml(champion.month)}</h3><p>${escapeHtml(champion.note)}</p>${champion.monthId ? `<button class="hall-ranking-link" data-open-month="${champion.monthId}">Abrir ranking completo <span>↗</span></button>` : ""}</div>
+        <div class="hall-portrait"><div class="portrait-orbit"><i></i><i></i><i></i></div><div class="portrait-core">${avatar}</div><div class="portrait-crown">${champion.name ? "♛" : "—"}</div></div>
+        <div class="hall-identity"><span>${champion.name ? "CAMPEÃO DO MÊS" : "SEM CAMPEÃO REGISTRADO"}</span><h4>${champion.name ? escapeHtml(champion.name) : "Em aberto"}</h4><div class="hall-facts"><div><b>${String(reigns).padStart(2, "0")}</b><small>${reigns === 1 ? "CONQUISTA" : "CONQUISTAS"}</small></div><div><b>${champion.monthId ? "OFICIAL" : "LEGADO"}</b><small>STATUS</small></div></div></div>
+      </article>
+      <div class="hall-navigation"><button data-hall-step="-1" ${activeHallIndex === 0 ? "disabled" : ""}>← Mês anterior</button><span><b>${String(activeHallIndex + 1).padStart(2, "0")}</b> / ${String(data.hall.length).padStart(2, "0")}</span><button data-hall-step="1" ${activeHallIndex === data.hall.length - 1 ? "disabled" : ""}>Próximo mês →</button></div>
+    </div>`;
+    container.querySelectorAll("[data-hall-index]").forEach((button) => button.addEventListener("click", () => { activeHallIndex = Number(button.dataset.hallIndex); renderHall(); }));
+    container.querySelectorAll("[data-hall-step]").forEach((button) => button.addEventListener("click", () => { activeHallIndex = Math.max(0, Math.min(data.hall.length - 1, activeHallIndex + Number(button.dataset.hallStep))); renderHall(); }));
+    container.querySelector("[data-open-month]")?.addEventListener("click", (event) => { activeMonthId = event.currentTarget.dataset.openMonth; renderArchive(); activateView("ranking"); });
+    observeReveals();
   }
 
   function podiumMarkup(players) {
@@ -259,6 +269,24 @@
     document.querySelectorAll(".reveal:not(.visible)").forEach((item) => observer.observe(item));
   }
 
+  function activateView(viewId, updateHistory = true) {
+    const target = document.querySelector(`[data-view="${viewId}"]`);
+    if (!target) return;
+    document.querySelectorAll(".app-view").forEach((view) => view.classList.toggle("active", view === target));
+    document.querySelectorAll("[data-view-target]").forEach((button) => {
+      const active = button.dataset.viewTarget === viewId;
+      button.classList.toggle("active", active);
+      if (button.getAttribute("role") === "tab") button.setAttribute("aria-selected", String(active));
+    });
+    target.querySelectorAll(".reveal").forEach((item) => item.classList.add("visible"));
+    if (updateHistory) history.replaceState(null, "", `#${viewId}`);
+    document.querySelector("#command-nav")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  document.querySelectorAll("[data-view-target]").forEach((button) => button.addEventListener("click", (event) => {
+    event.preventDefault(); activateView(button.dataset.viewTarget);
+  }));
+
   document.querySelector("#category-toggle").addEventListener("click", (event) => {
     const button = event.target.closest("button[data-category]"); if (!button) return;
     activeCategory = button.dataset.category; renderArchive();
@@ -271,10 +299,6 @@
   document.querySelector("#rock-close").addEventListener("click", () => setRockOpen(false));
 
   renderHero(); renderOverview(); renderHall(); renderArchive(); renderLauncher(); observeReveals();
-  const requestedSection = location.hash || (new URLSearchParams(location.search).get("section") ? `#${new URLSearchParams(location.search).get("section")}` : "");
-  if (requestedSection) setTimeout(() => {
-    const target = document.querySelector(requestedSection);
-    target?.querySelectorAll(".reveal").forEach((item) => item.classList.add("visible"));
-    target?.scrollIntoView();
-  }, 300);
+  const requestedView = location.hash.replace("#", "") || new URLSearchParams(location.search).get("section");
+  if (requestedView && document.querySelector(`[data-view="${requestedView}"]`)) setTimeout(() => activateView(requestedView, false), 150);
 }());
