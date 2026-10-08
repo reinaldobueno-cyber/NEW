@@ -101,7 +101,7 @@
             <span class="admin-kicker">GOOGLE SHEETS · BASE OFICIAL 2026</span>
             <h3>Painel da Diretoria</h3>
             <p>Edite apenas as semanas. O total de cada jogador é recalculado automaticamente e o histórico permanece organizado por mês e categoria.</p>
-            <a class="primary-action button admin-sheet-link" href="https://docs.google.com/spreadsheets/d/1uaPnmurHad5OEkAkr55kEl29e9kHZgSESBI4wNiJUJY/edit" target="_blank" rel="noopener noreferrer">Editar números <span>↗</span></a>
+            <a class="primary-action button admin-sheet-link" href="https://docs.google.com/spreadsheets/d/1VVoZkg1iqBUwhuQyWMJrAppEbsUAckVTVG4iom62Tb4/edit" target="_blank" rel="noopener noreferrer">Editar números <span>↗</span></a>
           </div>
           <div class="admin-security">
             <span>ACESSO PROTEGIDO</span>
