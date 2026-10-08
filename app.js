@@ -51,7 +51,7 @@
     <nav class="command-nav" id="command-nav" aria-label="Navegação principal">
       <a class="nav-brand" href="#inicio"><span>NEW!</span> APOCALYPSE</a>
       <div class="nav-links" role="tablist" aria-label="Áreas da central">
-        <button class="active" data-view-target="visao" role="tab">Visão geral</button><button data-view-target="hall" role="tab">Hall da Fama</button><button data-view-target="ranking" role="tab">Rankings</button><button data-view-target="lancamento" role="tab">Editar números</button>
+        <button class="active" data-view-target="visao" role="tab">Visão geral</button><button data-view-target="arena" role="tab">A Arena</button><button data-view-target="hall" role="tab">Hall da Fama</button><button data-view-target="ranking" role="tab">Rankings</button><button data-view-target="lancamento" role="tab">Editar números</button>
       </div>
       <div class="nav-status"><i></i> BASE ATIVA</div>
     </nav>
@@ -69,9 +69,65 @@
         </div>
       </section>
 
+      <section class="experience-section arena-section app-view" id="arena" data-view="arena">
+        <div class="arena-grid" aria-hidden="true"></div>
+        <div class="section-intro reveal">
+          <div><span class="section-index">02 / SALA DE JOGOS</span><h2>O céu não é<br>o limite. <em>É a arena.</em></h2></div>
+          <p>Conquistas da equipe, próximas missões e inteligência de jogo. Cada vitória abre uma nova fase.</p>
+        </div>
+
+        <article class="gold-unlock reveal" id="gold-unlock">
+          <div class="unlock-scan"></div>
+          <div class="gold-medal" aria-hidden="true"><span>★</span><i></i></div>
+          <div class="gold-copy">
+            <span class="unlock-code">CONQUISTA 001 · DESBLOQUEADA ESTA SEMANA</span>
+            <h3>Ouro<br><em>conquistado.</em></h3>
+            <p>A NEW atravessou a rodada como equipe e chegou ao topo. Não é só uma medalha: é a prova de que estratégia, constância e aliança vencem o jogo.</p>
+            <button class="celebrate-button" id="celebrate-gold"><span>△</span> Celebrar conquista</button>
+          </div>
+          <div class="unlock-stats">
+            <div><span>STATUS</span><strong>OURO</strong><small>CONQUISTA CONFIRMADA</small></div>
+            <div><span>PRÓXIMA FASE</span><strong>02×</strong><small>BUSCAR OURO CONSECUTIVO</small></div>
+          </div>
+        </article>
+
+        <div class="arena-columns">
+          <section class="mission-board reveal">
+            <div class="arena-heading"><span>PRÓXIMAS MISSÕES</span><b>03 ATIVAS</b></div>
+            <div class="mission-list">
+              <article><i class="shape-circle"></i><div><span>MISSÃO 01 · BATATINHA FRITA 1, 2, 3</span><h4>Avance sem perder o ritmo</h4><p>Pontue desde o início da semana. Constância reduz a pressão da última rodada.</p></div><b>01</b></article>
+              <article><i class="shape-triangle"></i><div><span>MISSÃO 02 · CABO DE GUERRA</span><h4>Ninguém vence sozinho</h4><p>Compartilhe rotas, atalhos e estratégias no time. Uma descoberta deve fortalecer todos.</p></div><b>02</b></article>
+              <article><i class="shape-square"></i><div><span>MISSÃO 03 · PONTE DE VIDRO</span><h4>Transforme risco em leitura</h4><p>Observe antes de agir, aprenda com cada rodada e registre o que funcionou.</p></div><b>03</b></article>
+            </div>
+          </section>
+
+          <aside class="vault-card reveal">
+            <span>COFRE DA EQUIPE</span>
+            <div class="vault-ring"><b>01</b><small>TROFÉU</small></div>
+            <h4>A coleção começou.</h4>
+            <p>Cada conquista semanal ficará registrada aqui. O objetivo não é sobreviver: é construir uma dinastia.</p>
+            <div class="vault-slots"><i class="won">★</i><i>?</i><i>?</i><i>?</i><i>?</i><i>?</i></div>
+          </aside>
+        </div>
+
+        <section class="strategy-deck reveal">
+          <div class="arena-heading"><div><span>ARQUIVO CONFIDENCIAL</span><h3>Macetes para sobreviver — e vencer.</h3></div><small>TOQUE EM UMA CARTA PARA ABRIR</small></div>
+          <div class="strategy-filters" role="tablist" aria-label="Filtrar estratégias"><button class="active" data-tip-filter="all">Todos</button><button data-tip-filter="timing">Timing</button><button data-tip-filter="rota">Rota</button><button data-tip-filter="equipe">Equipe</button></div>
+          <div class="strategy-grid">
+            <article class="strategy-card" data-tip="timing" tabindex="0"><div class="card-face"><span>01 · TIMING</span><i>○</i><h4>Batatinha Frita<br>1, 2, 3</h4><p>Movimento curto vence corrida desesperada.</p><b>ABRIR DOSSIÊ +</b></div><div class="card-secret"><span>MACETE DE OURO</span><p>Não largue no primeiro impulso. Use passos curtos, pare antes do sinal e deixe espaço para corrigir o personagem.</p><button>FECHAR ×</button></div></article>
+            <article class="strategy-card" data-tip="rota" tabindex="0"><div class="card-face"><span>02 · LEITURA</span><i>△</i><h4>Ponte<br>de Vidro</h4><p>Memória e paciência valem mais que pressa.</p><b>ABRIR DOSSIÊ +</b></div><div class="card-secret"><span>MACETE DE OURO</span><p>Observe a sequência aberta pelos primeiros jogadores, memorize em blocos curtos e mantenha a câmera alinhada antes de saltar.</p><button>FECHAR ×</button></div></article>
+            <article class="strategy-card" data-tip="timing" tabindex="0"><div class="card-face"><span>03 · RITMO</span><i>□</i><h4>Pular<br>Corda</h4><p>Cadência primeiro. Velocidade depois.</p><b>ABRIR DOSSIÊ +</b></div><div class="card-secret"><span>MACETE DE OURO</span><p>Leia dois ciclos antes de entrar. Salte pelo ritmo da animação, não pelo susto, e evite mudar de direção no ar.</p><button>FECHAR ×</button></div></article>
+            <article class="strategy-card" data-tip="rota" tabindex="0"><div class="card-face"><span>04 · ROTA</span><i>◇</i><h4>Esconde-<br>Esconde</h4><p>A saída começa no mapa, não na corrida.</p><b>ABRIR DOSSIÊ +</b></div><div class="card-secret"><span>MACETE DE OURO</span><p>Faça curvas fechadas para quebrar a visão, guarde uma rota alternativa e não siga a multidão para uma única porta.</p><button>FECHAR ×</button></div></article>
+            <article class="strategy-card" data-tip="equipe" tabindex="0"><div class="card-face"><span>05 · ALIANÇA</span><i>◎</i><h4>Mingle</h4><p>Antecipe o grupo antes do número aparecer.</p><b>ABRIR DOSSIÊ +</b></div><div class="card-secret"><span>MACETE DE OURO</span><p>Fique próximo de jogadores atentos, ocupe o centro para alcançar mais portas e decida rápido: hesitação elimina o grupo inteiro.</p><button>FECHAR ×</button></div></article>
+            <article class="strategy-card" data-tip="equipe" tabindex="0"><div class="card-face"><span>06 · FINAL</span><i>⬡</i><h4>Sky Squid<br>Game</h4><p>Posicionamento é poder.</p><b>ABRIR DOSSIÊ +</b></div><div class="card-secret"><span>MACETE DE OURO</span><p>Evite bordas no começo, preserve mobilidade e só dispute espaço quando houver rota segura para recuar.</p><button>FECHAR ×</button></div></article>
+          </div>
+          <p class="arena-disclaimer">Estratégias editoriais da NEW baseadas nas mecânicas públicas do jogo. Round 6: O Céu é o Limite é um jogo da Netflix.</p>
+        </section>
+      </section>
+
       <section class="experience-section hall-section app-view" id="hall" data-view="hall">
         <div class="section-intro reveal">
-          <div><span class="section-index">02 / LEGADO</span><h2>Hall da<br><em>Fama.</em></h2></div>
+          <div><span class="section-index">03 / LEGADO</span><h2>Hall da<br><em>Fama.</em></h2></div>
           <p>Os nomes que atravessaram o fogo e conquistaram o topo de cada mês.</p>
         </div>
         <div class="hall-experience" id="hall-experience"></div>
@@ -79,7 +135,7 @@
 
       <section class="experience-section ranking-section app-view" id="ranking" data-view="ranking">
         <div class="section-intro reveal">
-          <div><span class="section-index">03 / ARQUIVO OFICIAL</span><h2>O campo<br>de batalha.</h2></div>
+          <div><span class="section-index">04 / ARQUIVO OFICIAL</span><h2>O campo<br>de batalha.</h2></div>
           <p>Selecione um mês e alterne entre equipe e diretoria. Todos os totais são recalculados a partir das semanas.</p>
         </div>
         <div class="ranking-controls reveal">
@@ -93,7 +149,7 @@
 
       <section class="experience-section launch-section app-view" id="lancamento" data-view="lancamento">
         <div class="section-intro reveal">
-          <div><span class="section-index">04 / ACESSO RESTRITO</span><h2>Uma base.<br><em>Uma verdade.</em></h2></div>
+          <div><span class="section-index">05 / ACESSO RESTRITO</span><h2>Uma base.<br><em>Uma verdade.</em></h2></div>
           <p>Os números oficiais agora são mantidos em uma única planilha, com histórico mensal e acesso controlado pela Diretoria.</p>
         </div>
         <div class="admin-access reveal">
@@ -221,13 +277,43 @@
     activeCategory = button.dataset.category; renderArchive();
   });
 
+  function initArena() {
+    const arena = document.querySelector("#arena");
+    if (!arena) return;
+    const cards = [...arena.querySelectorAll(".strategy-card")];
+    const toggleCard = (card, force) => {
+      const open = force ?? !card.classList.contains("open");
+      cards.forEach((item) => item !== card && item.classList.remove("open"));
+      card.classList.toggle("open", open);
+    };
+    cards.forEach((card) => {
+      card.addEventListener("click", (event) => { event.stopPropagation(); toggleCard(card); });
+      card.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); toggleCard(card); } });
+    });
+    arena.querySelector(".strategy-filters")?.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-tip-filter]"); if (!button) return;
+      arena.querySelectorAll(".strategy-filters button").forEach((item) => item.classList.toggle("active", item === button));
+      cards.forEach((card) => { card.classList.remove("open"); card.classList.toggle("filtered-out", button.dataset.tipFilter !== "all" && card.dataset.tip !== button.dataset.tipFilter); });
+    });
+    arena.querySelector("#celebrate-gold")?.addEventListener("click", (event) => {
+      const button = event.currentTarget; button.classList.add("celebrating");
+      for (let index = 0; index < 34; index += 1) {
+        const particle = document.createElement("i"); particle.className = "gold-particle";
+        particle.style.setProperty("--x", `${(Math.random() - .5) * 900}px`); particle.style.setProperty("--y", `${-90 - Math.random() * 520}px`);
+        particle.style.setProperty("--r", `${Math.random() * 620 - 310}deg`); particle.style.setProperty("--delay", `${Math.random() * .18}s`);
+        button.appendChild(particle); setTimeout(() => particle.remove(), 1500);
+      }
+      setTimeout(() => button.classList.remove("celebrating"), 1500);
+    });
+  }
+
   const rockPlayer = document.querySelector("#rock-player");
   const rockToggle = document.querySelector("#rock-toggle");
   const setRockOpen = (open) => { rockPlayer.classList.toggle("open", open); rockToggle.setAttribute("aria-expanded", String(open)); };
   rockToggle.addEventListener("click", () => setRockOpen(!rockPlayer.classList.contains("open")));
   document.querySelector("#rock-close").addEventListener("click", () => setRockOpen(false));
 
-  renderHero(); renderOverview(); renderHall(); renderArchive(); observeReveals();
+  renderHero(); renderOverview(); renderHall(); renderArchive(); initArena(); observeReveals();
   const requestedView = location.hash.replace("#", "") || new URLSearchParams(location.search).get("section");
   if (requestedView && document.querySelector(`[data-view="${requestedView}"]`)) setTimeout(() => activateView(requestedView, false), 150);
 }());
