@@ -72,9 +72,27 @@
       <section class="experience-section arena-section arena-v2 app-view" id="arena" data-view="arena">
         <section class="arena-cinema reveal">
           <div class="arena-cinema-bg" aria-hidden="true"></div><div class="cinema-grain" aria-hidden="true"></div>
-          <div class="arena-cinema-copy"><span class="cinema-kicker"><i></i> NEW EXPERIENCE · ROUND 07</span><h2>JOGUE.<br>APRENDA.<br><em>DOMINE.</em></h2><p>O céu é o limite. O conhecimento muda o jogo.</p><div class="cinema-actions"><button class="cinema-primary" id="arena-enter">ENTRAR NO BUG LAB <b>▶</b></button><button class="cinema-secondary" id="celebrate-v2">★ REVER O OURO</button></div></div>
+          <div class="arena-cinema-copy"><span class="cinema-kicker"><i></i> ROUND 6: O CÉU É O LIMITE · CENTRAL NEW</span><h2>CONHEÇA<br>O JOGO.<br><em>DOMINE.</em></h2><p>Personagens, rotas, bugs e conquistas reais da equipe.</p><div class="cinema-actions"><button class="cinema-primary" id="arena-characters">ESCOLHER PERSONAGEM <b>↓</b></button><button class="cinema-secondary" id="arena-enter">▶ ABRIR BUG LAB</button></div></div>
           <aside class="weekly-gold"><span>CONQUISTA DA SEMANA</span><strong>OURO</strong><p>Missão concluída em equipe</p><div><b>01</b><small>TROFÉU<br>DESBLOQUEADO</small></div></aside>
           <div class="cinema-scroll">ROLE PARA EXPLORAR <i></i></div>
+        </section>
+
+        <section class="character-command reveal" id="character-command">
+          <div class="character-stage"><div class="character-stage-art" aria-label="Personagens oficiais de Round 6: O Céu é o Limite"></div><div class="character-stage-label"><span>ELENCO DO JOGO</span><strong id="character-name">SPUD</strong><small id="character-meta">JOGADOR 444 · PERSONAGEM SELECIONADO</small></div></div>
+          <div class="character-console">
+            <span class="character-eyebrow">01 / SELECIONE O PERSONAGEM</span><h3>Quem entra<br>na próxima rodada?</h3><p id="character-copy">Use Spud como filtro para reunir vídeos, bugs, rotas e melhores momentos gravados com o personagem.</p>
+            <div class="character-roster" role="listbox" aria-label="Personagens do jogo">
+              <button class="active" data-character="SPUD" data-meta="JOGADOR 444 · PERSONAGEM SELECIONADO" data-copy="Use Spud como filtro para reunir vídeos, bugs, rotas e melhores momentos gravados com o personagem."><b>444</b><span>SPUD</span></button>
+              <button data-character="RAJA" data-meta="PERSONAGEM · DOSSIÊ NEW" data-copy="Centralize aqui os tutoriais e bugs que a equipe descobriu jogando com Raja."><b>R</b><span>RAJA</span></button>
+              <button data-character="ACE" data-meta="PERSONAGEM · DOSSIÊ NEW" data-copy="Selecione Ace para abrir as jogadas, atalhos e vídeos catalogados pela equipe."><b>A</b><span>ACE</span></button>
+              <button data-character="DJ" data-meta="PERSONAGEM · DOSSIÊ NEW" data-copy="O dossiê de DJ será alimentado com os melhores momentos enviados pela NEW."><b>DJ</b><span>DJ</span></button>
+              <button data-character="DANI" data-meta="PERSONAGEM · DOSSIÊ NEW" data-copy="Organize as técnicas de Dani por mapa, nível e dificuldade de execução."><b>D</b><span>DANI</span></button>
+              <button data-character="BINNIE" data-meta="PERSONAGEM · DOSSIÊ NEW" data-copy="Abra o arquivo de Binnie e conecte cada vídeo ao macete correspondente."><b>B</b><span>BINNIE</span></button>
+              <button data-character="KARA" data-meta="PERSONAGEM · DOSSIÊ NEW" data-copy="As rotas e descobertas com Kara ficarão registradas neste painel."><b>K</b><span>KARA</span></button>
+              <button data-character="BEATRIZ" data-meta="PERSONAGEM · DOSSIÊ NEW" data-copy="Transforme as partidas com Beatriz em conhecimento compartilhado pela equipe."><b>BE</b><span>BEATRIZ</span></button>
+            </div>
+            <button class="character-open-lab" id="character-open-lab">VER BUGS DE <span>SPUD</span> <b>→</b></button>
+          </div>
         </section>
 
         <section class="progress-journey reveal">
@@ -310,6 +328,16 @@
     const arena = document.querySelector("#arena");
     if (!arena) return;
     arena.querySelector("#arena-enter")?.addEventListener("click", () => arena.querySelector("#bug-lab")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    arena.querySelector("#arena-characters")?.addEventListener("click", () => arena.querySelector("#character-command")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    arena.querySelectorAll(".character-roster button").forEach((button) => button.addEventListener("click", () => {
+      arena.querySelectorAll(".character-roster button").forEach((item) => item.classList.toggle("active", item === button));
+      arena.querySelector("#character-name").textContent = button.dataset.character;
+      arena.querySelector("#character-meta").textContent = button.dataset.meta;
+      arena.querySelector("#character-copy").textContent = button.dataset.copy;
+      arena.querySelector("#character-open-lab span").textContent = button.dataset.character;
+      const stage = arena.querySelector(".character-stage"); stage.classList.remove("character-swap"); requestAnimationFrame(() => stage.classList.add("character-swap"));
+    }));
+    arena.querySelector("#character-open-lab")?.addEventListener("click", () => arena.querySelector("#bug-lab")?.scrollIntoView({ behavior: "smooth", block: "start" }));
     const stages = {
       gold: ["FASE 01 · CONCLUÍDA", "Ouro da semana", "A primeira grande conquista já entrou para a história da equipe.", "25%"],
       streak: ["FASE 02 · EM ANDAMENTO", "Ouro consecutivo", "A próxima missão é provar que a vitória não foi acaso: é padrão.", "48%"],
