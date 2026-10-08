@@ -69,7 +69,33 @@
         </div>
       </section>
 
-      <section class="experience-section arena-section arena-v2 app-view" id="arena" data-view="arena">
+      <section class="experience-section arena-section arena-v2 arena-v3 app-view" id="arena" data-view="arena">
+        <section class="shortcut-hub">
+          <header class="shortcut-hero">
+            <div><span>NEW DATABASE · ROUND 6: O CÉU É O LIMITE</span><h2>ATALHOS<br><em>DA EQUIPE.</em></h2><p>Vídeos curtos. Nome claro. O macete certo na hora da rodada.</p></div>
+            <button id="shortcut-add"><i>＋</i><span><b>ADICIONAR ATALHO</b><small>Nome + personagem + vídeo</small></span></button>
+          </header>
+          <div class="shortcut-toolbar"><div><button class="active" data-shortcut-filter="all">TODOS</button><button data-shortcut-filter="SPUD">SPUD</button><button data-shortcut-filter="RAJA">RAJA</button><button data-shortcut-filter="OUTROS">OUTROS</button></div><span id="shortcut-count">CARREGANDO...</span></div>
+          <div class="shortcut-grid" id="shortcut-grid"><div class="shortcut-loading"><i></i><strong>BUSCANDO ATALHOS</strong></div></div>
+          <div class="shortcut-empty" id="shortcut-empty" hidden><b>＋</b><h3>Nenhum atalho publicado.</h3><p>Clique em “Adicionar atalho”, dê um nome e envie o vídeo.</p></div>
+          <div class="shortcut-admin-modal" id="shortcut-admin-modal" aria-hidden="true">
+            <div class="shortcut-admin-card"><button class="shortcut-modal-close" type="button" aria-label="Fechar">×</button>
+              <div class="shortcut-form-head"><span>PUBLICAÇÃO DA DIRETORIA</span><h3>Novo atalho</h3><p>Cadastre somente o necessário. O vídeo entra na biblioteca assim que o envio terminar.</p></div>
+              <form id="shortcut-form">
+                <label class="field-wide"><span>NOME DO ATALHO *</span><input id="shortcut-title" maxlength="120" required placeholder="Ex.: Pulo secreto da ponte"></label>
+                <label><span>PERSONAGEM</span><select id="shortcut-character"><option>SPUD</option><option>RAJA</option><option>ACE</option><option>DJ</option><option>DANI</option><option>BINNIE</option><option>KARA</option><option>BEATRIZ</option><option>OUTROS</option></select></label>
+                <label><span>MAPA / JOGO</span><select id="shortcut-map"><option>Ponte de Vidro</option><option>Batatinha Frita 1, 2, 3</option><option>Dalgona</option><option>Esconde-Esconde</option><option>Mingle</option><option>Pular Corda</option><option>Sky Squid Game</option><option>Outros</option></select></label>
+                <label class="field-wide"><span>DESCRIÇÃO CURTA</span><textarea id="shortcut-description" maxlength="300" placeholder="O que o jogador precisa fazer?"></textarea></label>
+                <div class="video-source field-wide"><span>VÍDEO *</span><label class="video-drop" for="shortcut-file"><input type="file" id="shortcut-file" accept="video/*"><b>↑ ESCOLHER VÍDEO</b><small id="shortcut-file-name">MP4, MOV ou WebM</small></label><i>OU</i><input type="url" id="shortcut-url" placeholder="Cole um link do YouTube ou vídeo HTTPS"></div>
+                <label class="field-wide password-field"><span>SENHA DA DIRETORIA *</span><input type="password" id="shortcut-password" required autocomplete="current-password" placeholder="••••••••"></label>
+                <div class="upload-progress field-wide" id="upload-progress" hidden><span><b id="upload-progress-label">ENVIANDO VÍDEO</b><i id="upload-progress-value">0%</i></span><div><i id="upload-progress-bar"></i></div></div>
+                <p class="shortcut-form-error field-wide" id="shortcut-form-error" role="alert"></p>
+                <button class="shortcut-submit field-wide" type="submit">PUBLICAR ATALHO <b>→</b></button>
+              </form>
+            </div>
+          </div>
+          <div class="shortcut-player-modal" id="shortcut-player-modal" aria-hidden="true"><button class="shortcut-player-close" aria-label="Fechar">×</button><div class="shortcut-player-content" id="shortcut-player-content"></div></div>
+        </section>
         <section class="arena-cinema reveal">
           <div class="arena-cinema-bg" aria-hidden="true"></div><div class="cinema-grain" aria-hidden="true"></div>
           <div class="arena-cinema-copy"><span class="cinema-kicker"><i></i> ROUND 6: O CÉU É O LIMITE · CENTRAL NEW</span><h2>CONHEÇA<br>O JOGO.<br><em>DOMINE.</em></h2><p>Personagens, rotas, bugs e conquistas reais da equipe.</p><div class="cinema-actions"><button class="cinema-primary" id="arena-characters">ESCOLHER PERSONAGEM <b>↓</b></button><button class="cinema-secondary" id="arena-enter">▶ ABRIR BUG LAB</button></div></div>
@@ -324,6 +350,65 @@
     activeCategory = button.dataset.category; renderArchive();
   });
 
+  function initShortcutHub() {
+    const hub = document.querySelector(".shortcut-hub");
+    if (!hub) return;
+    const api = "https://new-arena-api.reinaldo-bueno.workers.dev";
+    const grid = hub.querySelector("#shortcut-grid"); const empty = hub.querySelector("#shortcut-empty");
+    const adminModal = hub.querySelector("#shortcut-admin-modal"); const playerModal = hub.querySelector("#shortcut-player-modal");
+    const form = hub.querySelector("#shortcut-form"); let entries = []; let filter = "all";
+    const encode = (value) => encodeURIComponent(String(value || ""));
+    const youtubeEmbed = (url) => {
+      try { const parsed = new URL(url); const id = parsed.hostname.includes("youtu.be") ? parsed.pathname.slice(1) : parsed.searchParams.get("v"); return id ? `https://www.youtube.com/embed/${id}` : ""; } catch { return ""; }
+    };
+    const render = () => {
+      const visible = entries.filter((item) => filter === "all" || (filter === "OUTROS" ? !["SPUD", "RAJA"].includes(item.character) : item.character === filter));
+      hub.querySelector("#shortcut-count").textContent = `${visible.length.toString().padStart(2, "0")} ${visible.length === 1 ? "ATALHO" : "ATALHOS"}`;
+      empty.hidden = visible.length > 0; grid.hidden = visible.length === 0;
+      grid.innerHTML = visible.map((item, index) => `<article class="shortcut-card" data-id="${escapeHtml(item.id)}" style="--delay:${index * 45}ms"><button class="shortcut-card-play" aria-label="Reproduzir ${escapeHtml(item.title)}"><span>▶</span><small>ABRIR VÍDEO</small></button><div class="shortcut-card-number">${String(index + 1).padStart(2, "0")}</div><div class="shortcut-card-copy"><span>${escapeHtml(item.character)} · ${escapeHtml(item.map)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description || "Vídeo tático da equipe NEW.")}</p><small>PUBLICADO EM ${new Date(item.createdAt).toLocaleDateString("pt-BR")}</small></div></article>`).join("");
+    };
+    const load = async () => {
+      try { const request = await fetch(`${api}/shortcuts`, { cache: "no-store" }); if (!request.ok) throw new Error(); entries = await request.json(); render(); }
+      catch { grid.innerHTML = '<div class="shortcut-load-error"><strong>BASE TEMPORARIAMENTE INDISPONÍVEL</strong><span>Tente novamente em alguns instantes.</span></div>'; hub.querySelector("#shortcut-count").textContent = "OFFLINE"; }
+    };
+    hub.querySelector("#shortcut-add")?.addEventListener("click", () => { adminModal.classList.add("open"); adminModal.setAttribute("aria-hidden", "false"); setTimeout(() => hub.querySelector("#shortcut-title")?.focus(), 200); });
+    const closeAdmin = () => { adminModal.classList.remove("open"); adminModal.setAttribute("aria-hidden", "true"); };
+    hub.querySelector(".shortcut-modal-close")?.addEventListener("click", closeAdmin);
+    adminModal.addEventListener("click", (event) => { if (event.target === adminModal) closeAdmin(); });
+    hub.querySelector("#shortcut-file")?.addEventListener("change", (event) => { const file = event.target.files[0]; hub.querySelector("#shortcut-file-name").textContent = file ? `${file.name} · ${(file.size / 1048576).toFixed(1)} MB` : "MP4, MOV ou WebM"; });
+    hub.querySelector(".shortcut-toolbar")?.addEventListener("click", (event) => { const button = event.target.closest("button[data-shortcut-filter]"); if (!button) return; filter = button.dataset.shortcutFilter; hub.querySelectorAll("[data-shortcut-filter]").forEach((item) => item.classList.toggle("active", item === button)); render(); });
+    grid.addEventListener("click", (event) => {
+      const card = event.target.closest(".shortcut-card"); if (!card) return; const item = entries.find((entry) => entry.id === card.dataset.id); if (!item) return;
+      const embed = youtubeEmbed(item.videoUrl); const media = embed ? `<iframe src="${escapeHtml(embed)}" title="${escapeHtml(item.title)}" allow="autoplay; fullscreen" allowfullscreen></iframe>` : `<video src="${escapeHtml(item.videoUrl)}" controls autoplay playsinline></video>`;
+      hub.querySelector("#shortcut-player-content").innerHTML = `${media}<div><span>${escapeHtml(item.character)} · ${escapeHtml(item.map)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description || "")}</p></div>`;
+      playerModal.classList.add("open"); playerModal.setAttribute("aria-hidden", "false");
+    });
+    const closePlayer = () => { playerModal.classList.remove("open"); playerModal.setAttribute("aria-hidden", "true"); hub.querySelector("#shortcut-player-content").innerHTML = ""; };
+    hub.querySelector(".shortcut-player-close")?.addEventListener("click", closePlayer); playerModal.addEventListener("click", (event) => { if (event.target === playerModal) closePlayer(); });
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault(); const error = hub.querySelector("#shortcut-form-error"); error.textContent = "";
+      const title = hub.querySelector("#shortcut-title").value.trim(); const character = hub.querySelector("#shortcut-character").value; const map = hub.querySelector("#shortcut-map").value;
+      const description = hub.querySelector("#shortcut-description").value.trim(); const password = hub.querySelector("#shortcut-password").value; const file = hub.querySelector("#shortcut-file").files[0]; const videoUrl = hub.querySelector("#shortcut-url").value.trim();
+      if (!file && !videoUrl) { error.textContent = "Selecione um vídeo ou cole um link."; return; }
+      const id = crypto.randomUUID(); const progress = hub.querySelector("#upload-progress"); const submit = hub.querySelector(".shortcut-submit"); progress.hidden = false; submit.disabled = true;
+      try {
+        if (file) {
+          await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest(); xhr.open("PUT", `${api}/shortcuts/${id}/video`); xhr.setRequestHeader("content-type", file.type || "video/mp4"); xhr.setRequestHeader("x-admin-password", password); xhr.setRequestHeader("x-title", encode(title)); xhr.setRequestHeader("x-character", encode(character)); xhr.setRequestHeader("x-map", encode(map)); xhr.setRequestHeader("x-description", encode(description));
+            xhr.upload.onprogress = (upload) => { if (!upload.lengthComputable) return; const value = Math.round(upload.loaded / upload.total * 100); hub.querySelector("#upload-progress-value").textContent = `${value}%`; hub.querySelector("#upload-progress-bar").style.width = `${value}%`; };
+            xhr.onload = () => xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error(JSON.parse(xhr.responseText || "{}").error || "Falha no envio.")); xhr.onerror = () => reject(new Error("Falha de conexão durante o envio.")); xhr.send(file);
+          });
+        } else {
+          const request = await fetch(`${api}/shortcuts/${id}/link`, { method: "POST", headers: { "content-type": "application/json", "x-admin-password": password }, body: JSON.stringify({ title, character, map, description, videoUrl }) });
+          const result = await request.json(); if (!request.ok) throw new Error(result.error || "Falha na publicação.");
+        }
+        hub.querySelector("#upload-progress-label").textContent = "PUBLICADO"; hub.querySelector("#upload-progress-value").textContent = "100%"; hub.querySelector("#upload-progress-bar").style.width = "100%";
+        await load(); setTimeout(() => { closeAdmin(); form.reset(); progress.hidden = true; hub.querySelector("#shortcut-file-name").textContent = "MP4, MOV ou WebM"; hub.querySelector("#upload-progress-label").textContent = "ENVIANDO VÍDEO"; }, 650);
+      } catch (failure) { error.textContent = failure.message; } finally { submit.disabled = false; }
+    });
+    load();
+  }
+
   function initArena() {
     const arena = document.querySelector("#arena");
     if (!arena) return;
@@ -405,7 +490,7 @@
   rockToggle.addEventListener("click", () => setRockOpen(!rockPlayer.classList.contains("open")));
   document.querySelector("#rock-close").addEventListener("click", () => setRockOpen(false));
 
-  renderHero(); renderOverview(); renderHall(); renderArchive(); initArena(); observeReveals();
+  renderHero(); renderOverview(); renderHall(); renderArchive(); initShortcutHub(); initArena(); observeReveals();
   const requestedView = location.hash.replace("#", "") || new URLSearchParams(location.search).get("section");
   if (requestedView && document.querySelector(`[data-view="${requestedView}"]`)) setTimeout(() => activateView(requestedView, false), 150);
 }());
