@@ -51,7 +51,7 @@
     <nav class="command-nav" id="command-nav" aria-label="Navegação principal">
       <a class="nav-brand" href="#inicio"><span>NEW!</span> APOCALYPSE</a>
       <div class="nav-links" role="tablist" aria-label="Áreas da central">
-        <button class="active" data-view-target="visao" role="tab">Visão geral</button><button data-view-target="hall" role="tab">Hall da Fama</button><button data-view-target="ranking" role="tab">Rankings</button><button data-view-target="lancamento" role="tab">Atualizar</button>
+        <button class="active" data-view-target="visao" role="tab">Visão geral</button><button data-view-target="hall" role="tab">Hall da Fama</button><button data-view-target="ranking" role="tab">Rankings</button><button data-view-target="lancamento" role="tab">Editar números</button>
       </div>
       <div class="nav-status"><i></i> BASE ATIVA</div>
     </nav>
@@ -93,30 +93,22 @@
 
       <section class="experience-section launch-section app-view" id="lancamento" data-view="lancamento">
         <div class="section-intro reveal">
-          <div><span class="section-index">04 / CENTRAL DE LANÇAMENTO</span><h2>Novos números.<br><em>Mesma precisão.</em></h2></div>
-          <p>Cole uma faixa diretamente do Excel, valide o resultado e gere a base pronta para publicação.</p>
+          <div><span class="section-index">04 / ACESSO RESTRITO</span><h2>Uma base.<br><em>Uma verdade.</em></h2></div>
+          <p>Os números oficiais agora são mantidos em uma única planilha, com histórico mensal e acesso controlado pela Diretoria.</p>
         </div>
-        <div class="launch-grid reveal">
-          <div class="launch-form">
-            <div class="form-row">
-              <label>Mês de referência<select id="launch-month"></select></label>
-              <label>Categoria<select id="launch-category"><option value="team">Equipe</option><option value="directors">Diretoria</option></select></label>
-            </div>
-            <label class="paste-label">Dados copiados do Excel
-              <textarea id="launch-data" spellcheck="false" placeholder="JOGADOR&#9;SEMANA 1&#9;SEMANA 2&#9;SEMANA 3&#10;NOME DO JOGADOR&#9;12500&#9;18400&#9;22300"></textarea>
-            </label>
-            <div class="launch-actions">
-              <button class="primary-action button" id="apply-launch">Aplicar prévia</button>
-              <button class="ghost-action button" id="load-template">Carregar mês atual</button>
-              <button class="ghost-action button" id="download-data">Baixar base</button>
-            </div>
-            <div class="launch-message" id="launch-message" role="status"></div>
+        <div class="admin-access reveal">
+          <div class="admin-access-copy">
+            <span class="admin-kicker">GOOGLE SHEETS · BASE OFICIAL 2026</span>
+            <h3>Painel da Diretoria</h3>
+            <p>Edite apenas as semanas. O total de cada jogador é recalculado automaticamente e o histórico permanece organizado por mês e categoria.</p>
+            <a class="primary-action button admin-sheet-link" href="https://docs.google.com/spreadsheets/d/1uaPnmurHad5OEkAkr55kEl29e9kHZgSESBI4wNiJUJY/edit" target="_blank" rel="noopener noreferrer">Editar números <span>↗</span></a>
           </div>
-          <aside class="launch-guide">
-            <span class="guide-label">FLUXO RECOMENDADO</span>
-            <ol><li><b>01</b><div><strong>Copie do Excel</strong><p>Nome na primeira coluna e uma semana por coluna.</p></div></li><li><b>02</b><div><strong>Valide na tela</strong><p>A classificação e os totais são recalculados na hora.</p></div></li><li><b>03</b><div><strong>Baixe a base</strong><p>Envie o arquivo gerado para publicação no site.</p></div></li></ol>
-            <div class="integration-note"><span>PRÓXIMO NÍVEL</span><p>A estrutura já aceita integração futura com Google Sheets para atualização pública sem novo deploy.</p></div>
-          </aside>
+          <div class="admin-security">
+            <span>ACESSO PROTEGIDO</span>
+            <strong>Somente contas autorizadas</strong>
+            <p>O Google solicita a autenticação antes de permitir alterações. A credencial da Diretoria não fica exposta no código público.</p>
+            <ul><li>Histórico de alterações</li><li>Totais automáticos</li><li>Base mensal permanente</li></ul>
+          </div>
         </div>
       </section>
     </main>
@@ -200,69 +192,6 @@
     observeReveals();
   }
 
-  function parseNumber(value) {
-    const clean = String(value || "0").trim().replace(/\s/g, "");
-    if (!clean) return 0;
-    if (/^\d{1,3}(\.\d{3})+$/.test(clean)) return Number(clean.replaceAll(".", ""));
-    return Number(clean.replace(",", ".")) || 0;
-  }
-
-  function parsePastedData(text) {
-    const rows = text.trim().split(/\r?\n/).map((line) => line.split(/\t|;/).map((cell) => cell.trim())).filter((row) => row.some(Boolean));
-    if (!rows.length) throw new Error("Cole pelo menos uma linha da planilha.");
-    const hasHeader = /jogador|player|nome/i.test(rows[0][0]);
-    const body = hasHeader ? rows.slice(1) : rows;
-    const players = body.filter((row) => row[0]).map((row) => ({ name: row[0], weeks: row.slice(1).map(parseNumber) }));
-    if (!players.length || players.some((player) => !player.weeks.length)) throw new Error("Use a primeira coluna para o jogador e as demais para as semanas.");
-    const weekCount = Math.max(...players.map((player) => player.weeks.length));
-    players.forEach((player) => { while (player.weeks.length < weekCount) player.weeks.push(0); });
-    return { players, weekCount };
-  }
-
-  function renderLauncher() {
-    const select = document.querySelector("#launch-month");
-    select.innerHTML = [...data.months].sort((a, b) => a.id.localeCompare(b.id)).map((month) => `<option value="${month.id}" ${month.id === activeMonthId ? "selected" : ""}>${month.name} ${data.meta.season}</option>`).join("") + '<option value="new">+ Novo mês</option>';
-    const textarea = document.querySelector("#launch-data");
-    const categorySelect = document.querySelector("#launch-category");
-    const message = document.querySelector("#launch-message");
-
-    function loadTemplate() {
-      const month = monthById(select.value === "new" ? activeMonthId : select.value) || latestMonth();
-      const players = month[categorySelect.value] || [];
-      textarea.value = ["JOGADOR", ...month.weekLabels.map((_, index) => `SEMANA ${index + 1}`)].join("\t") + "\n" + players.map((player) => [player.name, ...player.weeks].join("\t")).join("\n");
-      message.textContent = `${players.length} registros carregados. Edite ou cole novos valores.`;
-    }
-
-    document.querySelector("#load-template").addEventListener("click", loadTemplate);
-    categorySelect.addEventListener("change", () => { if (select.value !== "new") loadTemplate(); });
-    select.addEventListener("change", () => { if (select.value !== "new") loadTemplate(); else { textarea.value = "JOGADOR\tSEMANA 1\tSEMANA 2\tSEMANA 3\tSEMANA 4\n"; message.textContent = "Base vazia criada. Informe os jogadores e valores."; } });
-    document.querySelector("#apply-launch").addEventListener("click", () => {
-      try {
-        const parsed = parsePastedData(textarea.value);
-        let month = monthById(select.value);
-        if (!month) {
-          const nextNumber = Number(prompt("Número do novo mês (1 a 12):", "10"));
-          if (!nextNumber || nextNumber < 1 || nextNumber > 12) return;
-          const names = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-          month = { id: `${data.meta.season}-${String(nextNumber).padStart(2, "0")}`, name: names[nextNumber - 1], status: "Em apuração", sourceSheet: "Lançamento manual", weekLabels: Array.from({ length: parsed.weekCount }, (_, index) => `Semana ${index + 1}`), team: [], directors: [] };
-          data.months.push(month); select.value = month.id;
-        }
-        month[categorySelect.value] = parsed.players;
-        month.weekLabels = Array.from({ length: parsed.weekCount }, (_, index) => month.weekLabels[index] || `Semana ${index + 1}`);
-        activeMonthId = month.id; activeCategory = categorySelect.value;
-        localStorage.setItem("new-apocalypse-draft", JSON.stringify(data));
-        renderHero(); renderOverview(); renderArchive();
-        message.innerHTML = `<strong>Prévia aplicada:</strong> ${parsed.players.length} competidores e ${parsed.weekCount} semanas. Rascunho salvo neste navegador.`;
-      } catch (error) { message.textContent = error.message; }
-    });
-    document.querySelector("#download-data").addEventListener("click", () => {
-      const contents = `window.NEW_APOCALYPSE_DATA = ${JSON.stringify(data, null, 2)};\n`;
-      const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob([contents], { type: "text/javascript;charset=utf-8" }));
-      link.download = "data.js"; link.click(); URL.revokeObjectURL(link.href);
-      message.textContent = "data.js gerado. Este é o arquivo que deve ser publicado no repositório.";
-    });
-  }
-
   function observeReveals() {
     if (!("IntersectionObserver" in window)) { document.querySelectorAll(".reveal").forEach((item) => item.classList.add("visible")); return; }
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); } }), { threshold: .08 });
@@ -298,7 +227,7 @@
   rockToggle.addEventListener("click", () => setRockOpen(!rockPlayer.classList.contains("open")));
   document.querySelector("#rock-close").addEventListener("click", () => setRockOpen(false));
 
-  renderHero(); renderOverview(); renderHall(); renderArchive(); renderLauncher(); observeReveals();
+  renderHero(); renderOverview(); renderHall(); renderArchive(); observeReveals();
   const requestedView = location.hash.replace("#", "") || new URLSearchParams(location.search).get("section");
   if (requestedView && document.querySelector(`[data-view="${requestedView}"]`)) setTimeout(() => activateView(requestedView, false), 150);
 }());
